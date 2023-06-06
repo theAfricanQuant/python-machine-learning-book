@@ -112,8 +112,7 @@ class NeuralNetMLP(object):
 
         term1 = -y_enc * (np.log(output))
         term2 = (1. - y_enc) * np.log(1. - output)
-        cost = np.sum(term1 - term2) + L2_term
-        return cost
+        return np.sum(term1 - term2) + L2_term
 
     def predict(self, X):
         """Predict class labels
@@ -130,8 +129,7 @@ class NeuralNetMLP(object):
 
         """
         z_h, a_h, z_out, a_out = self._forward(X)
-        y_pred = np.argmax(z_out, axis=1)
-        return y_pred
+        return np.argmax(z_out, axis=1)
 
     def fit(self, X_train, y_train, X_valid, y_valid):
         """ Learn weights from training data.

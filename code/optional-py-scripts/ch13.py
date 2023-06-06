@@ -118,7 +118,7 @@ net_input = theano.function(inputs=[],
                             outputs=z)
 
 # execute
-for i in range(5):
+for _ in range(5):
     print('z:', net_input())
 
 
@@ -138,7 +138,6 @@ y_train = np.asarray([1.0, 1.3, 3.1, 2.0, 5.0,
 
 def train_linreg(X_train, y_train, eta, epochs):
 
-    costs = []
     # Initialize arrays
     eta0 = T.fscalar('eta0')
     y = T.fvector(name='y')
@@ -164,9 +163,7 @@ def train_linreg(X_train, y_train, eta, epochs):
                             givens={X: X_train,
                                     y: y_train})
 
-    for _ in range(epochs):
-        costs.append(train(eta))
-
+    costs = [train(eta) for _ in range(epochs)]
     return costs, w
 
 
@@ -218,8 +215,7 @@ w = np.array([0.0, 0.2, 0.4])
 
 
 def net_input(X, w):
-    z = X.dot(w)
-    return z
+    return X.dot(w)
 
 
 def logistic(z):
@@ -343,11 +339,8 @@ _ = input("Please make sure that you've downloaded and unzipped the"
 
 def load_mnist(path, kind='train'):
     """Load MNIST data from `path`"""
-    labels_path = os.path.join(path,
-                               '%s-labels-idx1-ubyte' % kind)
-    images_path = os.path.join(path,
-                               '%s-images-idx3-ubyte'
-                               % kind)
+    labels_path = os.path.join(path, f'{kind}-labels-idx1-ubyte')
+    images_path = os.path.join(path, f'{kind}-images-idx3-ubyte')
 
     with open(labels_path, 'rb') as lbpath:
         magic, n = struct.unpack('>II',

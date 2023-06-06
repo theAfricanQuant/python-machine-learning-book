@@ -262,8 +262,7 @@ class NeuralNetMLP(object):
                                  '\nor X[[i]] for 1-sample classification')
 
         a1, z2, a2, z3, a3 = self._feedforward(X, self.w1, self.w2)
-        y_pred = np.argmax(z3, axis=0)
-        return y_pred
+        return np.argmax(z3, axis=0)
 
     def fit(self, X, y, print_progress=False):
         """ Learn weights from training data.

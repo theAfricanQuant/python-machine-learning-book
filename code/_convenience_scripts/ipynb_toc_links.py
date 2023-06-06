@@ -9,6 +9,6 @@ with open(ipynb, 'r') as f:
     for line in f:
         out_str = ' ' * (len(line) - len(line.lstrip()))
         line = line.strip()
-        out_str += '- [%s' % line
-        out_str += '](#%s)' % line.replace(' ', '-')
+        out_str += f'- [{line}'
+        out_str += f"](#{line.replace(' ', '-')})"
         print(out_str)

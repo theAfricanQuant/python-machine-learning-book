@@ -59,10 +59,8 @@ _ = input("Please hit enter to continue.")
 
 def load_mnist(path, kind='train'):
     """Load MNIST data from `path`"""
-    labels_path = os.path.join(path,
-                               '%s-labels-idx1-ubyte' % kind)
-    images_path = os.path.join(path,
-                               '%s-images-idx3-ubyte' % kind)
+    labels_path = os.path.join(path, f'{kind}-labels-idx1-ubyte')
+    images_path = os.path.join(path, f'{kind}-images-idx3-ubyte')
 
     with open(labels_path, 'rb') as lbpath:
         magic, n = struct.unpack('>II',
@@ -390,8 +388,7 @@ class NeuralNetMLP(object):
                                  '\nor X[[i]] for 1-sample classification')
 
         a1, z2, a2, z3, a3 = self._feedforward(X, self.w1, self.w2)
-        y_pred = np.argmax(z3, axis=0)
-        return y_pred
+        return np.argmax(z3, axis=0)
 
     def fit(self, X, y, print_progress=False):
         """ Learn weights from training data.
@@ -818,8 +815,7 @@ class MLPGradientCheck(object):
         norm1 = np.linalg.norm(num_grad - grad)
         norm2 = np.linalg.norm(num_grad)
         norm3 = np.linalg.norm(grad)
-        relative_error = norm1 / (norm2 + norm3)
-        return relative_error
+        return norm1 / (norm2 + norm3)
 
     def predict(self, X):
         """Predict class labels
@@ -841,8 +837,7 @@ class MLPGradientCheck(object):
                                  '\nor X[[i]] for 1-sample classification')
 
         a1, z2, a2, z3, a3 = self._feedforward(X, self.w1, self.w2)
-        y_pred = np.argmax(z3, axis=0)
-        return y_pred
+        return np.argmax(z3, axis=0)
 
     def fit(self, X, y, print_progress=False):
         """ Learn weights from training data.
@@ -912,11 +907,11 @@ class MLPGradientCheck(object):
                                                     grad2=grad2)
 
                 if grad_diff <= 1e-7:
-                    print('Ok: %s' % grad_diff)
+                    print(f'Ok: {grad_diff}')
                 elif grad_diff <= 1e-4:
-                    print('Warning: %s' % grad_diff)
+                    print(f'Warning: {grad_diff}')
                 else:
-                    print('PROBLEM: %s' % grad_diff)
+                    print(f'PROBLEM: {grad_diff}')
 
                 # update weights; [alpha * delta_w_prev] for momentum learning
                 delta_w1, delta_w2 = self.eta * grad1, self.eta * grad2

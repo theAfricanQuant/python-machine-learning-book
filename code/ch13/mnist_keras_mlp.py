@@ -10,12 +10,8 @@ from keras.optimizers import SGD
 
 def load_mnist(path, kind='train'):
     """Load MNIST data from `path`"""
-    labels_path = os.path.join(path,
-                               '%s-labels-idx1-ubyte'
-                                % kind)
-    images_path = os.path.join(path,
-                               '%s-images-idx3-ubyte'
-                               % kind)
+    labels_path = os.path.join(path, f'{kind}-labels-idx1-ubyte')
+    images_path = os.path.join(path, f'{kind}-images-idx3-ubyte')
 
     with open(labels_path, 'rb') as lbpath:
         magic, n = struct.unpack('>II',

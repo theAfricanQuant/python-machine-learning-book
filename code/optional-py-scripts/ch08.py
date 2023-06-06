@@ -214,7 +214,7 @@ gs_lr_tfidf = GridSearchCV(lr_tfidf, param_grid,
 
 gs_lr_tfidf.fit(X_train, y_train)
 
-print('Best parameter set: %s ' % gs_lr_tfidf.best_params_)
+print(f'Best parameter set: {gs_lr_tfidf.best_params_} ')
 print('CV Accuracy: %.3f' % gs_lr_tfidf.best_score_)
 
 
@@ -236,8 +236,7 @@ def tokenizer(text):
     emoticons = re.findall('(?::|;|=)(?:-)?(?:\)|\(|D|P)', text.lower())
     text = re.sub('[\W]+', ' ', text.lower()) +\
         ' '.join(emoticons).replace('-', '')
-    tokenized = [w for w in text.split() if w not in stop]
-    return tokenized
+    return [w for w in text.split() if w not in stop]
 
 
 def stream_docs(path):

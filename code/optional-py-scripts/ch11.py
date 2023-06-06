@@ -319,7 +319,7 @@ ac = AgglomerativeClustering(n_clusters=2,
                              affinity='euclidean',
                              linkage='complete')
 labels = ac.fit_predict(X)
-print('Cluster labels: %s' % labels)
+print(f'Cluster labels: {labels}')
 
 
 #############################################################################

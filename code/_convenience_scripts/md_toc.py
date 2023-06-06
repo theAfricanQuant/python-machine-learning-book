@@ -9,5 +9,5 @@ with open(ipynb, 'r') as f:
     for line in f:
         out_str = ' ' * (len(line) - len(line.lstrip()))
         line = line.strip()
-        out_str += '- %s' % line
+        out_str += f'- {line}'
         print(out_str)

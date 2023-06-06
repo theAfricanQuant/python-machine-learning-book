@@ -128,8 +128,7 @@ class MajorityVoteClassifier(BaseEstimator,
     def __init__(self, classifiers, vote='classlabel', weights=None):
 
         self.classifiers = classifiers
-        self.named_classifiers = {key: value for key, value
-                                  in _name_estimators(classifiers)}
+        self.named_classifiers = dict(_name_estimators(classifiers))
         self.vote = vote
         self.weights = weights
 
@@ -218,19 +217,17 @@ class MajorityVoteClassifier(BaseEstimator,
         """
         probas = np.asarray([clf.predict_proba(X)
                              for clf in self.classifiers_])
-        avg_proba = np.average(probas, axis=0, weights=self.weights)
-        return avg_proba
+        return np.average(probas, axis=0, weights=self.weights)
 
     def get_params(self, deep=True):
         """ Get classifier parameter names for GridSearch"""
         if not deep:
             return super(MajorityVoteClassifier, self).get_params(deep=False)
-        else:
-            out = self.named_classifiers.copy()
-            for name, step in six.iteritems(self.named_classifiers):
-                for key, value in six.iteritems(step.get_params(deep=True)):
-                    out['%s__%s' % (name, key)] = value
-            return out
+        out = self.named_classifiers.copy()
+        for name, step in six.iteritems(self.named_classifiers):
+            for key, value in six.iteritems(step.get_params(deep=True)):
+                out[f'{name}__{key}'] = value
+        return out
 
 
 #############################################################################
@@ -413,7 +410,7 @@ else:
                  grid.cv_results_[cv_keys[1]][r] / 2.0,
                  grid.cv_results_[cv_keys[2]][r]))
 
-print('Best parameters: %s' % grid.best_params_)
+print(f'Best parameters: {grid.best_params_}')
 print('Accuracy: %.2f' % grid.best_score_)
 
 
